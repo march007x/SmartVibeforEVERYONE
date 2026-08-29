@@ -9,12 +9,15 @@
 ## โครงไฟล์
 
 ```
-index.html          หน้าเว็บทั้งหมด (โครงสร้าง + เนื้อหา)
-assets/style.css    ระบบดีไซน์ · ธีมสว่าง/มืด · @media print
-assets/app.js       ธีม · overlay เมนู · overlay เนื้อล้วน · แถบความคืบหน้า
-vercel.json         ตั้งค่า deploy บน Vercel
+index.html    หน้าเว็บทั้งหมด (โครงสร้าง + เนื้อหา)
+style.css     ระบบดีไซน์ · ธีมสว่าง/มืด · @media print
+app.js        ธีม · overlay เมนู · overlay เนื้อล้วน · แถบความคืบหน้า
+vercel.json   ตั้งค่า deploy บน Vercel
 robots.txt
 ```
+
+ไฟล์ทั้งหมดอยู่ที่ **รากของ repo** ไม่มีโฟลเดอร์ย่อย
+เพราะการอัปโหลดผ่านหน้าเว็บ GitHub จะทิ้งโครงโฟลเดอร์ทิ้งไป
 
 ไม่มีขั้นตอน build ไม่มี dependency ไม่มี framework
 เปิด `index.html` จากเครื่องได้ตรง ๆ โดยไม่ต้องมีเซิร์ฟเวอร์
