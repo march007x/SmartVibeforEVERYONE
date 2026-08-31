@@ -1513,7 +1513,7 @@
     <div class="section-head">
       <span class="eyebrow">07 — เจาะลึก</span>
       <h2>ซอฟต์แวร์และโค้ด</h2>
-      <div class="asks"><span class="asks-label">คำถามที่ส่วนนี้ตอบ</span><p>โค้ด 43 ไฟล์จัดวางยังไง และใครเป็นคนตัดสินสถานะจริง ๆ</p></div>
+      <div class="asks"><span class="asks-label">คำถามที่ส่วนนี้ตอบ</span><p>โค้ดจัดวางยังไง ใครเป็นคนตัดสินสถานะจริง ๆ และคีย์ที่เป็นความลับถูกเก็บไว้ตรงไหน</p></div>
     </div>
 
     <div class="stack-lg">
@@ -1529,7 +1529,7 @@
             Python ทำไม่ได้เพราะมีตัวเก็บขยะหน่วยความจำที่หยุดโปรแกรมเป็นช่วง ๆ</p>
           </div>
           <div class="card">
-            <span class="kicker">แดชบอร์ด · 20 ไฟล์ + เทสต์ 3 ไฟล์</span>
+            <span class="kicker">แดชบอร์ด · 17 ไฟล์ + เทสต์ 3 ไฟล์</span>
             <h4>Python / Streamlit</h4>
             <p style="margin:8px 0 0">ฝั่งวิเคราะห์ต้องการไลบรารีคณิตศาสตร์ที่ครบ ซึ่งอยู่ใน Python
             การเลือกภาษาที่เหมาะกับงานแต่ละฝั่งแล้วเชื่อมด้วย API มาตรฐานเป็นแนวทางปกติของระบบ IoT</p>
@@ -1541,15 +1541,20 @@
       <div class="block reveal">
         <h3>สถาปัตยกรรมของโค้ดฝั่งแดชบอร์ด</h3>
         <p class="lede">หลักการที่ใช้คือ <strong>แยกส่วน “คิด” ออกจากส่วน “แสดง” อย่างเด็ดขาด</strong></p>
-<pre>dashboard/
-├── <b>app.py</b>                  <i>ตัวประกอบร่าง · 242 บรรทัด · ไม่มีสูตรคำนวณสักบรรทัด</i>
+<pre><b>streamlit_app.py</b>            <i>ตัวประกอบร่าง · 185 บรรทัด · ไม่มีสูตรคำนวณสักบรรทัด</i>
+<b>requirements.txt</b>            <i>รายชื่อไลบรารี ต้องอยู่ที่รากเท่านั้น</i>
+<b>.streamlit/</b>
+├── config.toml             <i>ธีมของหน้าเว็บ</i>
+└── secrets.toml            <i>คีย์และรหัสผ่าน — ไฟล์นี้ไม่ถูกอัปขึ้น GitHub</i>
+
+<b>smartvibe/</b>                  <i>โค้ดทั้งหมดรวมเป็นแพ็กเกจเดียว</i>
 ├── <b>config.py</b>               <i>ค่าตั้งต้นทั้งหมด + ตัวอ่านค่าลับ 4 ชั้น</i>
 │
 ├── <b>core/</b>                   <i>สมอง — ไม่ import streamlit เลย จึงเทสต์ได้</i>
 │   ├── dsp.py              <i>ประมวลผลสัญญาณล้วน ๆ</i>
 │   ├── damage.py           <i>สูตร Health + เครื่องสถานะ</i>
 │   ├── analysis.py         <i>ท่อประมวลผลหลัก มัดทุกอย่างเข้าด้วยกัน</i>
-│   ├── rules.py            <i>★ ตัวตัดสินหลัก · 405 บรรทัด · ไฟล์ที่ยาวที่สุด</i>
+│   ├── rules.py            <i>★ ตัวตัดสินหลัก · 341 บรรทัด · ไฟล์ที่ยาวที่สุด</i>
 │   ├── buffer.py           <i>บัฟเฟอร์ rolling 900 จุด เรียงเวลา กำจัดตัวซ้ำ</i>
 │   ├── firebase_client.py  <i>ดึงข้อมูลแบบเพิ่มเฉพาะส่วน</i>
 │   └── state.py            <i>ค่าที่ต้องจำข้ามรอบรีเฟรช</i>
@@ -1565,6 +1570,8 @@
     ├── insight.py          <i>การ์ดสรุปผล</i>
     ├── sidebar.py          <i>แถบตั้งค่า</i>
     └── debug.py            <i>แผงข้อมูลเทคนิค</i></pre>
+        <p class="table-note">จุดเริ่มต้นอยู่ที่รากของโปรเจกต์ ส่วนโค้ดทั้งหมดอยู่ในแพ็กเกจ <code>smartvibe/</code>
+        เป็นรูปแบบมาตรฐานของโปรเจกต์ Python ทำให้ไม่ว่าจะสั่งรันจากโฟลเดอร์ไหน โปรแกรมก็หาไฟล์ของตัวเองเจอเสมอ</p>
         <div class="grid-3" style="margin-top:24px">
           <div class="card"><span class="kicker">กฎเหล็กข้อ 1</span><h4><code>core/</code> ห้าม import streamlit</h4><p class="mini" style="margin:8px 0 0">ทำให้ป้อนตัวเลขเข้าไปทดสอบตรง ๆ ได้ เขียน unit test ได้จริง</p></div>
           <div class="card"><span class="kicker">กฎเหล็กข้อ 2</span><h4><code>ui/</code> ห้ามคำนวณ</h4><p class="mini" style="margin:8px 0 0">อยากเปลี่ยนสี แก้แค่ <code>theme.py</code> ไม่ต้องแตะโค้ดคำนวณเลย</p></div>
@@ -1708,16 +1715,134 @@
           <p>เพราะ repo เป็นแบบสาธารณะ ใครก็เห็น วิธีที่ถูกต้องคือใส่ค่าจริงในที่เก็บลับของแพลตฟอร์ม แล้วโค้ดค่อยไปอ่านตอนรัน</p>
         </div>
 <pre><i>❌ ผิด</i>  GROQ_API_KEY = "gsk_abc123..."         <i>← เขียนในไฟล์ที่อัปขึ้น GitHub</i>
-<i>✅ ถูก</i>  GROQ_API_KEY = _secret("GROQ_API_KEY") <i>← อ่านจากที่เก็บลับตอนรัน</i></pre>
+<i>✅ ถูก</i>  GROQ_API_KEY = secret("GROQ_API_KEY")  <i>← อ่านจากที่เก็บลับตอนรัน</i></pre>
         <p class="lede" style="margin-top:22px">โค้ดหาค่าลับตามลำดับ 4 ชั้น เพื่อให้รันได้ทั้งบนเครื่องตัวเองและบนคลาวด์โดยไม่ต้องแก้โค้ด</p>
         <ol class="steps">
           <li><b><code>st.secrets</code></b><span>ที่เก็บลับของ Streamlit Cloud — ใช้จริงตอน deploy</span></li>
-          <li><b>ไฟล์ <code>secrets.toml</code> ข้าง ๆ ตัวเอง</b><span>เวลารันบนเครื่องตัวเอง</span></li>
+          <li><b>ไฟล์ <code>secrets.toml</code> ในโปรเจกต์</b><span>เวลารันบนเครื่องตัวเอง</span></li>
           <li><b>environment variable</b><span>เผื่อ deploy แบบอื่น เช่น Docker</span></li>
           <li><b>ค่า default</b><span>กันโปรแกรมพัง</span></li>
         </ol>
         <p class="table-note">ชั้นที่ 2 มีอยู่เพราะบั๊กจริง — Streamlit หาไฟล์ <code>secrets.toml</code> จาก “โฟลเดอร์ที่สั่งรัน” ไม่ใช่โฟลเดอร์ที่ไฟล์อยู่
-        ถ้าสั่ง <code>streamlit run dashboard/app.py</code> จากรากโปรเจกต์ มันจะหาไม่เจอ แล้วขึ้นว่า “ยังไม่ได้ตั้ง FIREBASE_DOMAIN” ทั้งที่กรอกไปแล้ว</p>
+        ถ้าสั่งรันจากคนละที่กับที่ไฟล์อยู่ มันจะหาไม่เจอ แล้วขึ้นว่า “ยังไม่ได้ตั้ง FIREBASE_DOMAIN” ทั้งที่กรอกไปแล้ว</p>
+      </div>
+
+      <!-- กลไกการอ่านค่าลับ -->
+      <div class="block reveal">
+        <span class="eyebrow">คำถามที่กรรมการถามบ่อย</span>
+        <h3>แล้วโค้ดไปหยิบคีย์มาจากไหนตอนทำงานจริง</h3>
+        <p class="lede">คีย์ไม่เคยอยู่ในโค้ดเลยสักบรรทัด มันเดินทางผ่าน 3 ช่วง</p>
+
+        <div class="grid-3" style="margin-top:22px">
+          <div class="card">
+            <span class="kicker">ช่วงที่ 1</span>
+            <h4>จากช่องกรอก มาเป็นไฟล์</h4>
+            <p class="mini" style="margin:8px 0 0">พอกด Save ในหน้าตั้งค่าของ Streamlit Cloud ระบบจะเอาข้อความที่กรอกไปเขียนเป็นไฟล์
+            วางไว้ในเครื่องที่รันแอป ซึ่งอยู่คนละที่กับ GitHub แล้วรีสตาร์ทแอปให้เอง</p>
+          </div>
+          <div class="card">
+            <span class="kicker">ช่วงที่ 2</span>
+            <h4>โค้ดไล่หา 4 ชั้น</h4>
+            <p class="mini" style="margin:8px 0 0">ฟังก์ชัน <code>secret()</code> ใน <code>config.py</code> ไล่หาทีละชั้น
+            เจอที่ไหนก่อนก็หยุดที่นั่น จึงใช้โค้ดชุดเดียวกันได้ทั้งบนเครื่องและบนคลาวด์</p>
+          </div>
+          <div class="card">
+            <span class="kicker">ช่วงที่ 3</span>
+            <h4>เอาไปแนบตอนยิงคำขอ</h4>
+            <p class="mini" style="margin:8px 0 0">ค่าที่ได้ถูกใส่ในหัวข้อความที่ส่งไปหาผู้ให้บริการ
+            อยู่ในหน่วยความจำระหว่างที่โปรแกรมทำงานเท่านั้น ไม่ถูกเขียนลงไฟล์ไหนอีก</p>
+          </div>
+        </div>
+
+        <p class="lede" style="margin-top:26px">หน้าตาของฟังก์ชันที่ทำงานตรงนี้</p>
+<pre>def <b>secret</b>(key, default=""):
+    try:
+        val = st.secrets.get(key, None)   <i># ① ที่เก็บลับบนคลาวด์</i>
+        if val not in (None, ""): return str(val)
+    except Exception:
+        pass                              <i># ไม่มีไฟล์ secrets เลยก็ไม่พัง</i>
+
+    val = _file_secrets().get(key)        <i># ② ไฟล์ในโปรเจกต์</i>
+    if val not in (None, ""): return str(val)
+
+    return os.environ.get(key, default)   <i># ③ env var   ④ ค่า default</i></pre>
+
+        <div class="callout" style="margin-top:24px">
+          <p><b>ทำไมต้องมี <code>try/except</code> ครอบชั้นที่หนึ่ง</b> — ถ้าเครื่องนั้นไม่มีไฟล์ความลับอยู่เลย
+          การไปแตะ <code>st.secrets</code> จะทำให้โปรแกรมหยุดทันที ไม่ได้คืนค่าว่างเฉย ๆ
+          ถ้าไม่ครอบไว้ หน้าเว็บจะพังตั้งแต่ยังไม่ทันวาดอะไรออกมา</p>
+        </div>
+
+        <p class="lede" style="margin-top:26px">ในโค้ดเก็บแค่ <b>ชื่อ</b> ของคีย์ ไม่ใช่ตัวคีย์</p>
+<pre>PROVIDERS = {
+    "Groq": {
+        "url":   "https://api.groq.com/openai/v1/chat/completions",
+        "key":   <b>"GROQ_API_KEY"</b>,   <i>← เป็นแค่ป้ายชื่อ เปิดดูก็ไม่ได้อะไร</i>
+        "model": "llama-3.3-70b-versatile",
+    },
+}
+
+api_key = secret(cfg["key"])       <i>← เอาป้ายไปค้นค่าจริงตอนรัน</i></pre>
+        <p class="table-note">ข้อดีของการออกแบบแบบนี้คือ ถ้าจะเพิ่มผู้ให้บริการเจ้าใหม่ แค่เพิ่มข้อมูลอีกก้อน
+        ไม่ต้องแตะโค้ดส่วนที่เรียกใช้งานเลย เพราะทุกเจ้าใช้รูปแบบเดียวกันคือ ชื่อคีย์ + ที่อยู่ + ชื่อโมเดล</p>
+
+        <div class="table-scroll" style="margin-top:26px">
+          <table>
+            <thead><tr><th>คีย์</th><th>อ่านตอนไหน</th><th>เพราะอะไร</th></tr></thead>
+            <tbody>
+              <tr><th>โดเมนและรหัสของฐานข้อมูล</th><td>ครั้งเดียวตอนเปิดแอป</td><td>ต้องใช้ทุกวินาที เก็บไว้เป็นตัวแปรเลยเร็วกว่า</td></tr>
+              <tr><th>คีย์ของผู้ช่วย AI</th><td>ทุกครั้งที่กดปุ่ม</td><td>นาน ๆ ใช้ที ไม่ต้องแช่ไว้ในหน่วยความจำ</td></tr>
+              <tr><th>รหัสของบอทแจ้งเตือน</th><td>ทุกครั้งที่จะส่งข้อความ</td><td>เหตุผลเดียวกัน</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- เวอร์ชันใหม่ -->
+      <div class="block reveal">
+        <span class="eyebrow">บันทึกการเปลี่ยนแปลง</span>
+        <h3>เวอร์ชันล่าสุดปรับอะไรไปบ้าง</h3>
+        <p class="lede">รอบนี้ไม่ได้เพิ่มความสามารถใหม่เลย เป็นการจัดบ้านล้วน ๆ
+        เป้าหมายคือให้คนที่เพิ่งเปิดโปรเจกต์ครั้งแรกอ่านรู้เรื่องเร็วขึ้น โดยผลลัพธ์ทุกอย่างต้องเหมือนเดิมเป๊ะ</p>
+
+        <div class="table-scroll" style="margin-top:22px">
+          <table>
+            <thead><tr><th>เรื่อง</th><th>ของเดิม</th><th>ของใหม่</th></tr></thead>
+            <tbody>
+              <tr><th>ที่อยู่ของโค้ด</th><td>ซ้อนกันสี่ชั้นโดยไม่ได้ประโยชน์</td><td class="t-ok">แพ็กเกจเดียวชื่อ <code>smartvibe/</code> จุดเริ่มต้นอยู่ที่ราก</td></tr>
+              <tr><th>ไฟล์ตั้งค่า</th><td>มีสองชุดวางคนละที่ ไม่รู้ว่าอันไหนถูกใช้จริง</td><td class="t-ok">เหลือชุดเดียว</td></tr>
+              <tr><th>โค้ดที่ไม่มีใครเรียก</th><td>เหลือค้างอยู่หลายจุด</td><td class="t-ok">ไล่ลบออกหมด</td></tr>
+              <tr><th>การเขียนเทสต์</th><td>ต้องแทรกคำสั่งพิเศษบอกที่อยู่ไฟล์ก่อนทุกครั้ง</td><td class="t-ok">เรียกใช้ได้ตรง ๆ</td></tr>
+              <tr><th>คอมเมนต์ในโค้ด</th><td>ยาวจนบังตัวโค้ด</td><td class="t-ok">สั้นลงเกินครึ่ง เหลือเฉพาะที่บอก “ทำไม”</td></tr>
+              <tr><th>จำนวนบรรทัด</th><td>2,052</td><td class="t-ok">1,739</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="lede" style="margin-top:26px">การจัดบ้านแบบนี้เสี่ยงทำของพังโดยไม่รู้ตัว จึงพิสูจน์ก่อนว่าผลลัพธ์ไม่เปลี่ยน</p>
+        <div class="grid-3" style="margin-top:18px">
+          <div class="card">
+            <span class="kicker">ระดับกฎการตัดสิน</span>
+            <h4>7,776 กรณี</h4>
+            <p class="mini" style="margin:8px 0 0">ไล่ทุกการผสมของโหมด ค่าที่อ่านได้ ค่าที่หายไป และเกณฑ์
+            เทียบคำตอบเก่ากับใหม่ — ตรงกันทุกตัวอักษร</p>
+          </div>
+          <div class="card">
+            <span class="kicker">ระดับการประมวลผลสัญญาณ</span>
+            <h4>30 สถานการณ์</h4>
+            <p class="mini" style="margin:8px 0 0">ป้อนสัญญาณสังเคราะห์ที่รู้คำตอบล่วงหน้า
+            ตัวเลขที่ได้ตรงกันถึงทศนิยมตำแหน่งที่ 9</p>
+          </div>
+          <div class="card">
+            <span class="kicker">ระดับหน้าจอจริง</span>
+            <h4>182 บรรทัด</h4>
+            <p class="mini" style="margin:8px 0 0">เปิดเว็บทั้งสองเวอร์ชันพร้อมกัน ป้อนข้อมูลชุดเดียวกัน กดล็อกค่าอ้างอิง
+            แล้วเทียบทุกข้อความบนหน้าจอ — ไม่ต่างกันสักบรรทัด</p>
+          </div>
+        </div>
+
+        <blockquote class="pull" style="margin-top:26px">การจัดระเบียบโค้ดที่ดี ต้องพิสูจน์ได้ว่าไม่ได้เปลี่ยนพฤติกรรมของระบบ
+        ไม่ใช่แค่เปิดดูแล้วรู้สึกว่าสวยขึ้น</blockquote>
       </div>
 
     </div>
@@ -2513,7 +2638,7 @@
         <a class="menu-card" href="#theory"><span class="menu-card-n">04</span><div class="menu-card-t">ทฤษฎีการสั่นสะเทือน</div><div class="menu-card-d">fn · Health · โหมด · Transmissibility · ตารางความไว</div></a>
         <a class="menu-card" href="#dsp"><span class="menu-card-n">05</span><div class="menu-card-t">การประมวลผลสัญญาณ</div><div class="menu-card-d">8 ขั้นตอน · Welch · Nyquist · coherence</div></a>
         <a class="menu-card" href="#hardware"><span class="menu-card-n">06</span><div class="menu-card-t">โครงสร้างและฮาร์ดแวร์</div><div class="menu-card-d">ตึกจำลอง · ESP32-S3 · TCA9548A · สองคอร์</div></a>
-        <a class="menu-card" href="#software"><span class="menu-card-n">07</span><div class="menu-card-t">ซอฟต์แวร์และโค้ด</div><div class="menu-card-d">สถาปัตยกรรม 43 ไฟล์ · ระบบสรุปผลสองชั้น</div></a>
+        <a class="menu-card" href="#software"><span class="menu-card-n">07</span><div class="menu-card-t">ซอฟต์แวร์และโค้ด</div><div class="menu-card-d">สถาปัตยกรรมโค้ด · ระบบสรุปผลสองชั้น · การเก็บความลับ</div></a>
       </div>
     </div>
     <div class="menu-group">
